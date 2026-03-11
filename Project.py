@@ -36,15 +36,14 @@ class VariableDialog(wx.Dialog):
         """獲取用戶輸入的變數"""
         updated_vars = {}
         for var_name, text_ctrl in self.text_ctrls.items():
-            updated_vars[var_name] = text_ctrl.GetValue()  # 獲取輸入框中的值
+            updated_vars[var_name] = text_ctrl.GetValue() 
         return updated_vars
 
 class CleanDialog(wx.Dialog):
     def __init__(self, parent, frame):
         super(CleanDialog, self).__init__(parent, title="清除變數")
-        self.frame = frame # 保存 frame 的引用
+        self.frame = frame 
 
-        # 創建對話框的佈局
         sizer = wx.BoxSizer(wx.VERTICAL)
 
         clean_button = wx.Button(self, label="清除所有變數")
@@ -167,7 +166,7 @@ class CleanDialog(wx.Dialog):
         self.frame.Speedup1 = ''
         self.frame.Speedup2 = ''
         self.frame.check_variables()
-        self.EndModal(wx.ID_OK)  # 关闭对话框
+        self.EndModal(wx.ID_OK)
 
     def reset_outnumber(self, event):
         self.frame.Outnumber = 0
@@ -176,9 +175,8 @@ class CleanDialog(wx.Dialog):
 class SituationDialog(wx.Dialog):
     def __init__(self, parent, frame):
         super(SituationDialog, self).__init__(parent, title="改變狀況")
-        self.frame = frame # 保存 frame 的引用
+        self.frame = frame
 
-        # 創建對話框的佈局
         sizer = wx.BoxSizer(wx.VERTICAL)
 
         change_non_speedup_button = wx.Button(self, label="沒有加速")
@@ -262,12 +260,11 @@ class MyFrame(wx.Frame):
         
         self.start_period_check()
         self.Maximize(True)
-        self.Bind(wx.EVT_CLOSE, self.on_close)  # 綁定窗口關閉事件
+        self.Bind(wx.EVT_CLOSE, self.on_close)  
 
     def on_close(self, event):
         self.save_variables_to_pickle('variables.pkl', self.extract_self_variables())
-        self.Destroy()  # 先銷毀窗口
-        #sys.exit()  # 然後退出程序pyinstaller --onefile --noconsole
+        self.Destroy() 
  
 
     def save_variables_to_pickle(self, file_path, variables):
@@ -383,7 +380,6 @@ class MyFrame(wx.Frame):
         ]
         for var_name in variable_names:
             try:
-                # 如果变量不存在或为空，标记为 False
                 if not hasattr(self, var_name) or getattr(self, var_name) == "":
                     self.all_variable_exist = False
                     break
@@ -392,7 +388,6 @@ class MyFrame(wx.Frame):
                 break
         
         if not self.all_variable_exist:
-            # 如果变量不存在或为空，初始化必要的变量
             self.Outnumber = 0
         
 
@@ -472,7 +467,6 @@ class MyFrame(wx.Frame):
             self.canvas_hour.draw()
     def ini_ui(self):
         font = wx.Font(20, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
-        # 创建一个面板
         self.panel = wx.Panel(self)
         self.panel.SetBackgroundColour('white')  # 設置整個程式背景為白色
         self.middle_panel = wx.ScrolledWindow(self.panel, -1, style=wx.VSCROLL)
@@ -559,7 +553,6 @@ class MyFrame(wx.Frame):
         if self.all_variable_exist:
             self.update_plot()
         self.update_middle_sizer()
-    # 每秒檢查一次是否有變數變動，且為守護執行緒
 
     def start_period_check(self):
         thread = threading.Thread(target = self.period_check)
@@ -799,12 +792,11 @@ class MyFrame(wx.Frame):
             self.LowerLimit = self.NowPrice - self.SecondThreshold    
 class MyApp(wx.App):
     def OnInit(self):
-        # 创建一个窗口框架
         frame = MyFrame(None)
         frame.Show(True)
         return True
 
-# 启动应用程序
 if __name__ == '__main__':
     app = MyApp()
     app.MainLoop()
+
